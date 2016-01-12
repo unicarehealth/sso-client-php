@@ -1,2 +1,2 @@
-config.php
-config_*.php
+/config.php
+/config_*.php
