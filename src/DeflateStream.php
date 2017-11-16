@@ -1,5 +1,5 @@
 <?php
-	namespace Csa\Sso\Client;
+	namespace CubicleSoft\SSO\Client;
 	
 	// Deflate stream class.  Default is RFC1951 (raw deflate).  Supports RFC1950 (ZLIB) and RFC1952 (gzip).
 	// (C) 2016 CubicleSoft.  All Rights Reserved.

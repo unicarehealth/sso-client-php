@@ -1,5 +1,5 @@
 <?php
-	namespace Csa\Sso\Client;
+	namespace CubicleSoft\SSO\Client;
 
 	// Cryptographically Secure Pseudo-Random String Generator (CSPRSG) and CSPRNG.
 	// (C) 2017 CubicleSoft.  All Rights Reserved.

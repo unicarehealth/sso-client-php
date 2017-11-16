@@ -68,7 +68,7 @@ require_once('sso-client/config.php');
 ```
 8) You can now use instances of SSOClient as required:
 ```
-$ssoClient = new \Csa\Sso\Client\SSOClient();
+$ssoClient = new \CubicleSoft\SSO\Client\SSOClient();
 ```
 
 PHP 7.2 Testing

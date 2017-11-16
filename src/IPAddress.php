@@ -1,5 +1,5 @@
 <?php
-	namespace Csa\Sso\Client;
+	namespace CubicleSoft\SSO\Client;
 
 	// CubicleSoft PHP IP Address functions.
 	// (C) 2016 CubicleSoft.  All Rights Reserved.

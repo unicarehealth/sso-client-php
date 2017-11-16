@@ -6,7 +6,7 @@
 	
 	function CheckDependencies()
 	{
-		$testClass = '\Csa\Sso\Client\CSPRNG';
+		$testClass = '\CubicleSoft\SSO\Client\CSPRNG';
 		if (class_exists($testClass)) return;
 							
 		$directory = dirname(__FILE__);
@@ -177,7 +177,7 @@
 <?php
 		try
 		{
-			$rng = new \Csa\Sso\Client\CSPRNG(true);
+			$rng = new \CubicleSoft\SSO\Client\CSPRNG(true);
 			echo "<span class=\"success\">Yes</span>";
 		}
 		catch (Exception $e)
@@ -214,7 +214,7 @@
 		// Test connectivity to the SSO server.
 		define("SSO_CLIENT_ROOT_PATH", str_replace("\\", "/", dirname(__FILE__)));
 		define("SSO_CLIENT_LANG_PATH", "lang");
-		$sso_client = new \Csa\Sso\Client\SSOClient;
+		$sso_client = new \CubicleSoft\SSO\Client\SSOClient;
 		if ($_REQUEST["default_lang"] == "")  $result = array("success" => true);
 		else  $result = $sso_client->SetLanguage(SSO_CLIENT_ROOT_PATH . "/" . SSO_CLIENT_LANG_PATH . "/", $_REQUEST["default_lang"]);
 
@@ -350,7 +350,7 @@
 		if ($_REQUEST["sso_server_secretkey"] == "")  InstallError("'SSO Server Secret Key' is empty.");
 
 		// Generate random seeds.
-		$rng = new \Csa\Sso\Client\CSPRNG(true);
+		$rng = new \CubicleSoft\SSO\Client\CSPRNG(true);
 		for ($x = 0; $x < 16; $x++)
 		{
 			$seed = $rng->GenerateToken(128);

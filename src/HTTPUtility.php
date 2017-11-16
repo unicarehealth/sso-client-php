@@ -1,5 +1,5 @@
 <?php
-	namespace Csa\Sso\Client;
+	namespace CubicleSoft\SSO\Client;
 
 	// CubicleSoft PHP HTTP class.  Modified for SSO Client integration.
 	// (C) 2016 CubicleSoft.  All Rights Reserved.

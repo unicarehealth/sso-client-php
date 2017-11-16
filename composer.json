@@ -22,7 +22,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-            "Csa\\Sso\\Client\\": "src/"
+            "CubicleSoft\\SSO\\Client\\": "src/"
         }
 	}
 }
