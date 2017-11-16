@@ -33,35 +33,42 @@ Quick start video tutorials:
 
 https://www.youtube.com/watch?v=Vbe4p-PUSTo&index=3&list=PLIvucSFZRDjgiSfsm707zn-bqKd64Eikb
 
-How to use the Composer Package
--------------------------------
+How to use as a Composer Package
+--------------------------------
 1) Add the Unicare fork to the 'repositories' section of composer.json, e.g.:
-
+```
 "repositories": [
 		{			
             "type": "vcs",
             "url": "https://github.com/unicarehealth/sso-client-php.git"
         }
     ]
-	
+```
 2) Add the package to the 'require' section of composer.json, e.g.:
+```
 "require": {
 	"cubiclesoft/sso-client-php": "dev-master"
 }
-
+```
 3) Run 'composer update' from the command line to tell Composer to fetch required packages. You may also need to execute 'composer dump-autoload'.
+```
+>composer update
+>composer dump-autoload
+```
 
-4) Now copy the folder /vendor/cubiclesoft/sso-client-php/sso-client to a public location in your web application.
+4) Now copy the folder /vendor/cubiclesoft/sso-client-php/sso-client to a public location in your web application (e.g. <application-root>/sso-client.
 
-5) Complete the installation as by opening the installer's web page in a browser (e.g. at your-domain/sso-client/install.php).
+5) Complete the installation by opening the installer's web page in a browser (e.g. at <your-domain>/sso-client/install.php).
 
-6) Once the installation has been completed, and a config.php file has been created: delete 'install.php', and the folders 'js' and 'css'.
+6) Once installation has completed and a config.php file has been created, delete file 'install.php' and the folders 'js' and 'css'.
 
 7) In the bootstrap/initialisation code for you application add:
+```
 require_once('sso-client/config.php');
-
-8) You can now use an instance of the SSOClient as required:
+```
+8) You can now use instances of SSOClient as required:
+```
 $ssoClient = new \Csa\Sso\Client\SSOClient();
-
+```
 
 
