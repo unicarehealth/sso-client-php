@@ -38,7 +38,7 @@ How to use as a Composer Package
 1) Add the Unicare fork to the 'repositories' section of composer.json, e.g.:
 ```
 "repositories": [
-		{			
+        {
             "type": "vcs",
             "url": "https://github.com/unicarehealth/sso-client-php.git"
         }
@@ -47,8 +47,8 @@ How to use as a Composer Package
 2) Add the package to the 'require' section of composer.json, e.g.:
 ```
 "require": {
-	"cubiclesoft/sso-client-php": "dev-master"
-}
+        "cubiclesoft/sso-client-php": "dev-master"
+    }
 ```
 3) Run 'composer update' from the command line to tell Composer to fetch required packages. You may also need to execute 'composer dump-autoload'.
 ```
@@ -70,5 +70,10 @@ require_once('sso-client/config.php');
 ```
 $ssoClient = new \Csa\Sso\Client\SSOClient();
 ```
+
+PHP 7.2 Testing
+---------------
+This refactor as a Composer package allows Composer to manage the phpseclib dependency, where the original repository version raises deprecation messages in PHP 7.2.
+
 
 
