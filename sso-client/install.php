@@ -2,8 +2,31 @@
 	// Single Sign-On Client
 	// (C) 2014 CubicleSoft.  All Rights Reserved.
 
-	if (file_exists("config.php"))  exit();
+	if (file_exists("config.php")) exit();
 	
+	function CheckDependencies()
+	{
+		$testClass = '\Csa\Sso\Client\CSPRNG';
+		if (class_exists($testClass)) return;
+							
+		$directory = dirname(__FILE__);
+		do
+		{
+			$directory = dirname($directory);
+			if (file_exists($directory . '/composer.json'))
+			{
+				require_once str_replace("\\", "/", $directory) . "/vendor/autoload.php";
+				break;
+			}
+		} while($directory != '/');
+	
+		if (!class_exists($testClass))
+		{
+			echo $testClass . ' not found';
+			exit();
+		}
+	}
+		
 	function BB_IsSSLRequest()
 	{
 		return ((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on" || $_SERVER["HTTPS"] == "1")) || (isset($_SERVER["SERVER_PORT"]) && $_SERVER["SERVER_PORT"] == "443") || (str_replace("\\", "/", strtolower(substr($_SERVER["REQUEST_URI"], 0, 8))) == "https://"));
@@ -63,6 +86,7 @@
 		}
 	}
 	
+	CheckDependencies();
 	SetDebugLevel();	
 	ProcessAllInput();
 
