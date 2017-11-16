@@ -3,17 +3,68 @@
 	// (C) 2014 CubicleSoft.  All Rights Reserved.
 
 	if (file_exists("config.php"))  exit();
+	
+	function BB_IsSSLRequest()
+	{
+		return ((isset($_SERVER["HTTPS"]) && ($_SERVER["HTTPS"] == "on" || $_SERVER["HTTPS"] == "1")) || (isset($_SERVER["SERVER_PORT"]) && $_SERVER["SERVER_PORT"] == "443") || (str_replace("\\", "/", strtolower(substr($_SERVER["REQUEST_URI"], 0, 8))) == "https://"));
+	}
+	
+	function BB_GetRequestURLBase()
+	{
+		$str = str_replace("\\", "/", $_SERVER["REQUEST_URI"]);
+		$pos = strpos($str, "?");
+		if ($pos !== false)  $str = substr($str, 0, $pos);
+		$str2 = strtolower($str);
+		if (substr($str2, 0, 7) == "http://" || substr($str2, 0, 8) == "https://")
+		{
+			$pos = strpos($str, "/", 8);
+			if ($pos === false)  $str = "/";
+			else  $str = substr($str, $pos);
+		}
 
-	require_once "support/debug.php";
-	require_once "support/str_basics.php";
-	require_once "support/page_basics.php";
-	require_once "support/sso_functions.php";
-	require_once "support/sso_blowfish.php";
-	require_once "support/sso_aes.php";
-	require_once "support/sso_random.php";
+		return $str;
+	}
 
-	SetDebugLevel();
-	Str::ProcessAllInput();
+	// http://www.php.net/manual/en/errorfunc.constants.php
+	// Default PHP configuration is E_ALL & ~E_NOTICE.  The default here is much more strict.
+	function SetDebugLevel($level = E_ALL)
+	{
+		error_reporting($level);
+		ini_set("display_errors", ($level ? "1" : "0"));
+	}
+	
+	// Cleans up all PHP input issues so that $_REQUEST may be used as expected.
+	function ProcessAllInput()
+	{
+		ProcessSingleInput($_COOKIE);
+		ProcessSingleInput($_GET);
+		ProcessSingleInput($_POST);
+	}
+	
+	function ProcPOSTStr($data)
+	{
+		$data = trim($data);
+		if (get_magic_quotes_gpc())  $data = stripslashes($data);
+
+		return $data;
+	}
+
+	function ProcessSingleInput($data)
+	{
+		foreach ($data as $key => $val)
+		{
+			if (is_string($val))  $_REQUEST[$key] = ProcPOSTStr($val);
+			else if (is_array($val))
+			{
+				$_REQUEST[$key] = array();
+				foreach ($val as $key2 => $val2)  $_REQUEST[$key][$key2] = (is_string($val2) ? ProcPOSTStr($val2) : $val2);
+			}
+			else  $_REQUEST[$key] = $val;
+		}
+	}
+	
+	SetDebugLevel();	
+	ProcessAllInput();
 
 	// Allow developers to inject code here.  For example, IP address restriction logic.
 	if (file_exists("install_hook.php"))  require_once "install_hook.php";
@@ -102,7 +153,7 @@
 <?php
 		try
 		{
-			$rng = new SSO_CSPRNG(true);
+			$rng = new \Csa\Sso\Client\CSPRNG(true);
 			echo "<span class=\"success\">Yes</span>";
 		}
 		catch (Exception $e)
@@ -138,9 +189,8 @@
 	{
 		// Test connectivity to the SSO server.
 		define("SSO_CLIENT_ROOT_PATH", str_replace("\\", "/", dirname(__FILE__)));
-		define("SSO_CLIENT_SUPPORT_PATH", "support");
 		define("SSO_CLIENT_LANG_PATH", "lang");
-		$sso_client = new SSO_Client;
+		$sso_client = new \Csa\Sso\Client\SSOClient;
 		if ($_REQUEST["default_lang"] == "")  $result = array("success" => true);
 		else  $result = $sso_client->SetLanguage(SSO_CLIENT_ROOT_PATH . "/" . SSO_CLIENT_LANG_PATH . "/", $_REQUEST["default_lang"]);
 
@@ -276,7 +326,7 @@
 		if ($_REQUEST["sso_server_secretkey"] == "")  InstallError("'SSO Server Secret Key' is empty.");
 
 		// Generate random seeds.
-		$rng = new SSO_CSPRNG(true);
+		$rng = new \Csa\Sso\Client\CSPRNG(true);
 		for ($x = 0; $x < 16; $x++)
 		{
 			$seed = $rng->GenerateToken(128);
@@ -289,7 +339,6 @@
 		$data = "<" . "?php\n";
 		$data .= "\tdefine(\"SSO_CLIENT_ROOT_PATH\", " . var_export(SSO_CLIENT_ROOT_PATH, true) . ");\n";
 		$data .= "\tdefine(\"SSO_CLIENT_ROOT_URL\", " . var_export(SSO_CLIENT_ROOT_URL, true) . ");\n";
-		$data .= "\tdefine(\"SSO_CLIENT_SUPPORT_PATH\", \"support\");\n";
 		$data .= "\tdefine(\"SSO_CLIENT_LANG_PATH\", \"lang\");\n";
 		$data .= "\tdefine(\"SSO_CLIENT_DEFAULT_LANG\", " . var_export($_REQUEST["sso_default_lang"], true) . ");\n";
 		$data .= "\tdefine(\"SSO_CLIENT_PROXY_X_FORWARDED_FOR\", " . var_export($_REQUEST["sso_proxy_x_forwarded_for"], true) . ");\n";
@@ -349,8 +398,8 @@
 <head>
 <title>Single Sign-On Client Installer</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" href="support/install.css" type="text/css" />
-<script type="text/javascript" src="support/jquery-1.11.0.min.js"></script>
+<link rel="stylesheet" href="css/install.css" type="text/css" />
+<script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 
 <script type="text/javascript">
 function Page(curr, next)

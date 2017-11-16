@@ -1,4 +1,6 @@
 <?php
+	namespace Csa\Sso\Client;
+
 	// CubicleSoft PHP HTTP class.  Modified for SSO Client integration.
 	// (C) 2016 CubicleSoft.  All Rights Reserved.
 
@@ -1085,8 +1087,6 @@
 										if (!$state["autodecode"])  $state["autodecode_ds"] = false;
 										else
 										{
-											if (!class_exists("DeflateStream", false))  require_once str_replace("\\", "/", dirname(__FILE__)) . "/deflate_stream.php";
-
 											// Since servers and browsers do everything wrong, ignore the encoding claim and attempt to auto-detect the encoding.
 											$state["autodecode_ds"] = new DeflateStream();
 											$state["autodecode_ds"]->Init("rb", -1, array("type" => "auto"));

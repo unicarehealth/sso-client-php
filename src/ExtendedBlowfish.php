@@ -1,10 +1,14 @@
 <?php
+	namespace Csa\Sso\Client;
+
+	use Exception;
+
 	// Blowfish packetization and hashing class.  Requires phpseclib Blowfish.php
 	// (C) 2017 CubicleSoft.  All Rights Reserved.
 	//
 	// Class renamed for SSO Client support.
 
-	class SSO_ExtendedBlowfish
+	class ExtendedBlowfish
 	{
 		// Uses Blowfish to create an encapsulated data packet.  Does not support streams.
 		static function CreateDataPacket($data, $key, $options = array())
@@ -15,12 +19,12 @@
 			if (!isset($options["lightweight"]) || !$options["lightweight"])  $data = $options["prefix"] . "\n" . strtolower(sha1($data)) . "\n" . $data . "\n";
 			else  $data = $options["prefix"] . "\n" . strtolower(dechex(crc32($data))) . "\n" . $data . "\n";
 
-			if (!class_exists("Crypt_Blowfish", false))  require_once str_replace("\\", "/", dirname(__FILE__)) . "/phpseclib/Blowfish.php";
+			self::CheckDependencies();
 
 			if (!isset($options["mode"]))  $options["mode"] = "ECB";
 			if ($options["mode"] == "CBC" && !isset($options["iv"]))  $options["iv"] = str_repeat("\x00", strlen($key));
 
-			$bf = new Crypt_Blowfish($options["mode"] == "CBC" ? CRYPT_BLOWFISH_MODE_CBC : CRYPT_BLOWFISH_MODE_ECB);
+			$bf = new \phpseclib\Crypt\Blowfish($options["mode"] == "CBC" ? \phpseclib\Crypt\Blowfish::MODE_CBC : \phpseclib\Crypt\Blowfish::MODE_ECB);
 			$bf->setKey($key);
 			if (isset($options["iv"]))  $bf->setIV($options["iv"]);
 			$bf->disablePadding();
@@ -44,6 +48,31 @@
 			return $data;
 		}
 
+		// Checks required classes are available.
+		static function CheckDependencies()
+		{
+			if (!class_exists("\\phpseclib\\Crypt\\Blowfish"))
+			{
+				throw new Exception("phpseclib not found (Blowfish)");
+			}
+			// $directory = dirname(__FILE__);
+			// do
+			// {
+				// $directory = dirname($directory);
+				// if (file_exists($directory . '/composer.json'))
+				// {
+					// require_once str_replace("\\", "/", $directory) . "/vendor/autoload.php";
+					// break;
+				// }
+			// } while($directory != '/');
+
+			// if (!class_exists("\\phpseclib\\Crypt\\Blowfish"))
+			// {
+				// echo "phpseclib not found (Blowfish)";
+				// exit();
+			// }
+		}
+
 		// Uses Blowfish to extract the data from an encapsulated data packet and validates the data.  Does not support streams.
 		static function ExtractDataPacket($data, $key, $options = array())
 		{
@@ -52,7 +81,7 @@
 			if (!isset($options["mode"]))  $options["mode"] = "ECB";
 			if ($options["mode"] != "ECB" && (!isset($options["iv"]) || $options["iv"] == ""))  return false;
 
-			if (!class_exists("Crypt_Blowfish", false))  require_once str_replace("\\", "/", dirname(__FILE__)) . "/phpseclib/Blowfish.php";
+			self::CheckDependencies();
 
 			if (isset($options["key2"]))
 			{
@@ -60,7 +89,7 @@
 				if (isset($options["iv2"]))  $options["iv"] = $options["iv2"];
 				else  unset($options["iv"]);
 
-				$bf = new Crypt_Blowfish($options["mode"] == "CBC" ? CRYPT_BLOWFISH_MODE_CBC : CRYPT_BLOWFISH_MODE_ECB);
+				$bf = new \phpseclib\Crypt\Blowfish($options["mode"] == "CBC" ? \phpseclib\Crypt\Blowfish::MODE_CBC : \phpseclib\Crypt\Blowfish::MODE_ECB);
 				$bf->setKey($options["key2"]);
 				if (isset($options["iv"]))  $bf->setIV($options["iv"]);
 				$bf->disablePadding();
@@ -70,7 +99,7 @@
 				$options = $options2;
 			}
 
-			$bf = new Crypt_Blowfish($options["mode"] == "CBC" ? CRYPT_BLOWFISH_MODE_CBC : CRYPT_BLOWFISH_MODE_ECB);
+			$bf = new \phpseclib\Crypt\Blowfish($options["mode"] == "CBC" ? \phpseclib\Crypt\Blowfish::MODE_CBC : \phpseclib\Crypt\Blowfish::MODE_ECB);
 			$bf->setKey($key);
 			if (isset($options["iv"]))  $bf->setIV($options["iv"]);
 			$bf->disablePadding();
@@ -121,7 +150,7 @@
 			$ts = microtime(true) + $mintime / 1000;
 			$totalrounds = 0;
 
-			$bf = new Crypt_Blowfish();
+			$bf = new \phpseclib\Crypt\Blowfish();
 			$bf->disablePadding();
 
 			while ($rounds > 0)

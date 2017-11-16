@@ -1,10 +1,12 @@
 <?php
+	namespace Csa\Sso\Client;
+
 	// CubicleSoft PHP IP Address functions.
 	// (C) 2016 CubicleSoft.  All Rights Reserved.
 	//
 	// Class renamed for SSO Client support.
 
-	class SSO_IPAddr
+	class IPAddress
 	{
 		static function IsHostname($str)
 		{

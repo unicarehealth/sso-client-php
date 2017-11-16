@@ -1,10 +1,14 @@
 <?php
+	namespace Csa\Sso\Client;
+
+	use Exception;
+	
 	// AES packetization class.  Requires phpseclib AES.php + Rijndael.php
 	// (C) 2017 CubicleSoft.  All Rights Reserved.
 	//
 	// Class renamed for SSO Client support.
 
-	class SSO_ExtendedAES
+	class ExtendedAES
 	{
 		// Uses AES to create an encapsulated data packet.  Does not support streams.
 		static function CreateDataPacket($data, $key, $options = array())
@@ -15,12 +19,12 @@
 			if (!isset($options["lightweight"]) || !$options["lightweight"])  $data = $options["prefix"] . "\n" . strtolower(sha1($data)) . "\n" . $data . "\n";
 			else  $data = $options["prefix"] . "\n" . strtolower(dechex(crc32($data))) . "\n" . $data . "\n";
 
-			if (!class_exists("Crypt_AES", false))  require_once str_replace("\\", "/", dirname(__FILE__)) . "/phpseclib/AES.php";
+			self::CheckDependencies();
 
 			if (!isset($options["mode"]))  $options["mode"] = "ECB";
 			if (!isset($options["iv"]))  $options["iv"] = str_repeat("\x00", 16);
 
-			$aes = new Crypt_AES($options["mode"] == "CBC" ? CRYPT_AES_MODE_CBC : CRYPT_AES_MODE_ECB);
+			$aes = new \phpseclib\Crypt\AES($options["mode"] == "CBC" ? \phpseclib\Crypt\AES::MODE_CBC : \phpseclib\Crypt\AES::MODE_ECB);
 			$aes->setKey($key);
 			if (isset($options["iv"]))  $aes->setIV($options["iv"]);
 			$aes->disablePadding();
@@ -44,6 +48,32 @@
 			return $data;
 		}
 
+		// Checks required classes are available.
+		static function CheckDependencies()
+		{
+			if (!class_exists("\\phpseclib\\Crypt\\AES"))
+			{					
+				throw new Exception("phpseclib not found (AES)");
+			}
+			
+			// $directory = dirname(__FILE__);
+			// do
+			// {
+				// $directory = dirname($directory);
+				// if (file_exists($directory . '/composer.json'))
+				// {
+					// require_once str_replace("\\", "/", $directory) . "/vendor/autoload.php";
+					// break;
+				// }
+			// } while($directory != '/');
+			
+			// if (!class_exists("\\phpseclib\\Crypt\\AES"))
+			// {
+				//error_log("phpseclib not found (AES)");
+				//exit();
+			//}					
+		}
+		
 		// Uses AES to extract the data from an encapsulated data packet and validates the data.  Does not support streams.
 		static function ExtractDataPacket($data, $key, $options = array())
 		{
@@ -52,7 +82,7 @@
 			if (!isset($options["mode"]))  $options["mode"] = "ECB";
 			if ($options["mode"] != "ECB" && (!isset($options["iv"]) || $options["iv"] == ""))  return false;
 
-			if (!class_exists("Crypt_AES", false))  require_once str_replace("\\", "/", dirname(__FILE__)) . "/phpseclib/AES.php";
+			self::CheckDependencies();
 
 			if (isset($options["key2"]))
 			{
@@ -60,7 +90,7 @@
 				if (isset($options["iv2"]))  $options["iv"] = $options["iv2"];
 				else  unset($options["iv"]);
 
-				$aes = new Crypt_AES($options["mode"] == "CBC" ? CRYPT_AES_MODE_CBC : CRYPT_AES_MODE_ECB);
+				$aes = new \phpseclib\Crypt\AES($options["mode"] == "CBC" ? \phpseclib\Crypt\AES::MODE_CBC : \phpseclib\Crypt\AES::MODE_ECB);
 				$aes->setKey($options["key2"]);
 				if (isset($options["iv"]))  $aes->setIV($options["iv"]);
 				$aes->disablePadding();
@@ -70,7 +100,7 @@
 				$options = $options2;
 			}
 
-			$aes = new Crypt_AES($options["mode"] == "CBC" ? CRYPT_AES_MODE_CBC : CRYPT_AES_MODE_ECB);
+			$aes = new \phpseclib\Crypt\AES($options["mode"] == "CBC" ? \phpseclib\Crypt\AES::MODE_CBC : \phpseclib\Crypt\AES::MODE_ECB);
 			$aes->setKey($key);
 			if (isset($options["iv"]))  $aes->setIV($options["iv"]);
 			$aes->disablePadding();
