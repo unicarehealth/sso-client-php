@@ -1,5 +1,8 @@
 <?php
 	namespace CubicleSoft\SSO\Client;
+	
+	use stdClass;
+	
 	// SSO client support class.
 	// (C) 2015 CubicleSoft.  All Rights Reserved.
 
