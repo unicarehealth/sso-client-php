@@ -1,5 +1,5 @@
 {
-    "name": "cubiclesoft/csa_sso_client",
+    "name": "cubiclesoft/sso-client-php",
 	"description": "CubicleSoft Applications | Single-Sign-On | Client (PHP)",
     "license": "proprietary",
     "authors":[
