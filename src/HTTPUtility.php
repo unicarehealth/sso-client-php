@@ -4,7 +4,7 @@
 	// CubicleSoft PHP HTTP class.  Modified for SSO Client integration.
 	// (C) 2016 CubicleSoft.  All Rights Reserved.
 
-	class SSO_HTTP
+	class HTTPUtility
 	{
 		// RFC 3986 delimeter splitting implementation.
 		public static function ExtractURL($url)

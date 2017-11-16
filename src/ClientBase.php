@@ -13,7 +13,7 @@
 		{
 			$options2 = array(
 				"headers" => array(
-					"User-Agent" => SSO_HTTP::GetUserAgent("Firefox"),
+					"User-Agent" => HTTPUtility::GetUserAgent("Firefox"),
 					"Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
 					"Accept-Language" => "en-us,en;q=0.5",
 					"Accept-Charset" => "ISO-8859-1,utf-8;q=0.7,*;q=0.7",
@@ -82,7 +82,7 @@
 			$retries = 0;
 			do
 			{
-				$result = SSO_HTTP::RetrieveWebpage($url, $options2);
+				$result = HTTPUtility::RetrieveWebpage($url, $options2);
 
 				$retries++;
 			} while (!$result["success"] && $retries < 3);
