@@ -1,5 +1,7 @@
 <?php
 	namespace CubicleSoft\SSO\Client;
+	
+	use CubicleSoft\DeflateStream;
 
 	// CubicleSoft PHP HTTP class.  Modified for SSO Client integration.
 	// (C) 2016 CubicleSoft.  All Rights Reserved.

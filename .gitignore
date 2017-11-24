@@ -1,2 +1,3 @@
 /sso-client/config.php
 /sso-client/config_*.php
+/vendor

@@ -1,8 +1,10 @@
 <?php
 	namespace CubicleSoft\SSO\Client;
-	
+
+	use CubicleSoft\CSPRNG;
+	use CubicleSoft\IPAddr;
 	use stdClass;
-	
+
 	// SSO client support class.
 	// (C) 2015 CubicleSoft.  All Rights Reserved.
 
@@ -131,7 +133,7 @@
 				if ($ipaddr != "")  $proxies[$ipaddr] = "clientip";
 			}
 
-			return IPAddress::GetRemoteIP($proxies);
+			return IPAddr::GetRemoteIP($proxies);
 		}
 
 		protected function ProcPOSTStr($data)
