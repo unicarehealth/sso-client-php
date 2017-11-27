@@ -25,7 +25,7 @@
     ],
 	"require": {
 		"phpseclib/phpseclib": "^2.0",
-		"cubiclesoft/to-composer": "^1.0"
+		"cubiclesoft/to-composer": "dev-master"
 	
 	},
 	"autoload": {
