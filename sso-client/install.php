@@ -6,7 +6,7 @@
 	
 	function CheckDependencies()
 	{
-		$testClass = '\CubicleSoft\CSPRNG';
+		$testClass = '\CubicleSoft\SSO\Client\CSPRNG';
 		if (class_exists($testClass)) return;
 							
 		$directory = dirname(__FILE__);
@@ -177,7 +177,7 @@
 <?php
 		try
 		{
-			$rng = new \CubicleSoft\CSPRNG(true);
+			$rng = new \CubicleSoft\SSO\Client\CSPRNG(true);
 			echo "<span class=\"success\">Yes</span>";
 		}
 		catch (Exception $e)
@@ -350,7 +350,7 @@
 		if ($_REQUEST["sso_server_secretkey"] == "")  InstallError("'SSO Server Secret Key' is empty.");
 
 		// Generate random seeds.
-		$rng = new \CubicleSoft\CSPRNG(true);
+		$rng = new \CubicleSoft\SSO\Client\CSPRNG(true);
 		for ($x = 0; $x < 16; $x++)
 		{
 			$seed = $rng->GenerateToken(128);
