@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0072c028ef6eaa0c9e9ef79b27145be2",
+    "content-hash": "1ff26ee2cb65c55f1b4ebb4d88588fc2",
     "packages": [
         {
             "name": "cubiclesoft/to-composer",
-            "version": "1.0.44",
+            "version": "1.0.46",
             "source": {
                 "type": "git",
-                "url": "https://github.com/cubiclesoft/php-libs-to-composer.git",
-                "reference": "f1287a243c75ee419c1d5a8828beeacb0c89f40b"
+                "url": "https://github.com/unicarehealth/php-libs-to-composer.git",
+                "reference": "6e87125bafed7722f15df47305be330f99966e3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cubiclesoft/php-libs-to-composer/zipball/f1287a243c75ee419c1d5a8828beeacb0c89f40b",
-                "reference": "f1287a243c75ee419c1d5a8828beeacb0c89f40b",
+                "url": "https://api.github.com/repos/unicarehealth/php-libs-to-composer/zipball/6e87125bafed7722f15df47305be330f99966e3b",
+                "reference": "6e87125bafed7722f15df47305be330f99966e3b",
                 "shasum": ""
             },
             "require": {
@@ -30,7 +30,6 @@
                     "CubicleSoft\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -46,8 +45,6 @@
             "homepage": "http://cubiclesoft.com/",
             "keywords": [
                 "CubicleSoft",
-                "IP",
-                "RNG",
                 "app startup",
                 "async",
                 "calendar",
@@ -65,6 +62,7 @@
                 "http",
                 "http client",
                 "http server",
+                "ip",
                 "ipaddr",
                 "mime",
                 "mysql",
@@ -75,6 +73,7 @@
                 "postgres",
                 "postgresql",
                 "receiving",
+                "rng",
                 "sending",
                 "simple html dom",
                 "smtp",
@@ -91,7 +90,10 @@
                 "websocket client",
                 "websocket server"
             ],
-            "time": "2017-11-17T08:30:30+00:00"
+            "support": {
+                "source": "https://github.com/cubiclesoft/php-libs-to-composer"
+            },
+            "time": "2017-11-27T01:04:11+00:00"
         },
         {
             "name": "pear/net_dns2",
