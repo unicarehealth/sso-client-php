@@ -93,7 +93,7 @@
 			if (!$result["success"])  return $result;
 
 			// Decode and extract response.
-			if ($result["body"]{0} == "{")  $data = @json_decode(trim($result["body"]), true);
+			if ($result["body"][0] == "{")  $data = @json_decode(trim($result["body"]), true);
 			else
 			{
 				$data = @base64_decode(trim($result["body"]));
@@ -136,10 +136,7 @@
 
 		protected function ProcPOSTStr($data)
 		{
-			$data = trim($data);
-			if (get_magic_quotes_gpc())  $data = stripslashes($data);
-
-			return $data;
+			return trim($data);
 		}
 
 		protected function ProcessSingleInput($data)
