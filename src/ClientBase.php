@@ -1037,7 +1037,7 @@
 
 		public function GetSecretToken()
 		{
-			return hash_hmac("sha1", SSO_CLIENT_RAND_SEED16 . ":" . SSO_COOKIE_NAME . ":" . SSO_CLIENT_ROOT_PATH . ":" . $this->user_info["extra"], pack("H*", SSO_CLIENT_RAND_SEED15));
+			return hash_hmac("sha1", SSO_CLIENT_RAND_SEED16 . ":" . SSO_COOKIE_NAME . ":" . SSO_CLIENT_ROOT_PATH . ":" . ((isset($this->user_info["extra"])) ? $this->user_info["extra"] : ""), pack("H*", SSO_CLIENT_RAND_SEED15));
 		}
 	}
 ?>
